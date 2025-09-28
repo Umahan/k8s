@@ -1,0 +1,39 @@
+# HorizontalPodAutoscaler (HPA) - автоматическое масштабирование подов
+apiVersion: autoscaling/v2  # Версия API для HPA v2 (поддерживает multiple metrics)
+kind: HorizontalPodAutoscaler  # Тип ресурса - автомасштабировщик
+metadata:
+  name: web-app-hpa  # Уникальное имя HPA
+  namespace: production  # Namespace где находится масштабируемый Deployment
+spec:
+  # Целевой ресурс для масштабирования
+  scaleTargetRef:
+    apiVersion: apps/v1  # API версия целевого ресурса
+    kind: Deployment  # Тип масштабируемого ресурса
+    name: web-app  # Имя масштабируемого Deployment
+  
+  minReplicas: 1  # Минимальное количество подов (экономия ресурсов ночью)
+  maxReplicas: 4  # Максимальное количество подов (по нагрузочному тесту)
+  
+  # Поведение масштабирования
+  behavior:
+    scaleDown:  # Настройки уменьшения реплик
+      stabilizationWindowSeconds: 300  # Окно стабилизации 5 мин (избежание флуктуаций)
+      policies:
+      - type: Percent  # Процентное изменение количества подов
+        value: 50  # Максимум 50% подов можно удалить за период
+        periodSeconds: 60  # Период применения политики - 60 секунд
+    scaleUp:  # Настройки увеличения реплик
+      stabilizationWindowSeconds: 60  # Окно стабилизации 1 мин (быстрое масштабирование вверх)
+      policies:
+      - type: Percent  # Процентное изменение количества подов
+        value: 100  # Можно увеличить на 100% подов за период
+        periodSeconds: 30  # Период применения политики - 30 секунд
+  
+  # Метрики для принятия решений о масштабировании
+  metrics:
+  - type: Resource  # Тип метрики - использование ресурсов
+    resource:
+      name: cpu  # Метрика использования CPU
+      target:
+        type: Utilization  # Целевой тип - процент утилизации
+        averageUtilization: 70  # Целевой уровень утилизации CPU 70%

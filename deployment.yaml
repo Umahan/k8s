@@ -1,0 +1,105 @@
+apiVersion: apps/v1  # Версия API для работы с Deployment
+kind: Deployment      # Тип ресурса Kubernetes - Deployment для управления подами
+metadata:
+  name: web-app       # Уникальное имя Deployment в namespace
+  namespace: production # Namespace для изоляции ресурсов
+  labels:
+    app: web-app      # Метка для идентификации приложения
+    version: v1       # Версия приложения для управления релизами
+spec:
+  # Количество реплик подов для баланса отказоустойчивости и ресурсов
+  replicas: 3
+  
+  # Стратегия обновления подов
+  strategy:
+    type: RollingUpdate  # Постепенное обновление без downtime
+    rollingUpdate:
+      maxSurge: 1        # Максимум на 1 под больше желаемого количества во время обновления
+      maxUnavailable: 0  # Запрет на недоступные поды во время обновления
+  
+  # Селектор для поиска управляемых подов
+  selector:
+    matchLabels:
+      app: web-app       # Ищет поды с этой меткой
+  
+  template:              # Шаблон для создания подов
+    metadata:
+      labels:
+        app: web-app     # Метка, по которой Deployment находит свои поды
+    spec:
+      # Распределение подов по зонам доступности
+      topologySpreadConstraints:
+      - maxSkew: 1       # Максимальная разница в количестве подов между зонами
+        topologyKey: topology.kubernetes.io/zone  # Ключ топологии - зоны доступности
+        whenUnsatisfiable: ScheduleAnyway  # Всегда планировать, даже если распределение не идеально
+        labelSelector:
+          matchLabels:
+            app: web-app  # Применять к подам с этой меткой
+      
+      # Правила размещения подов для избежания концентрации на одной ноде
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:  # Предпочтительное правило (soft)
+          - weight: 100    # Вес правила при планировании
+            podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app: web-app  # Избегать размещения с подами с такой же меткой
+              topologyKey: kubernetes.io/hostname  # Ключ топологии - имя ноды
+      
+      containers:
+      - name: web-app    # Имя контейнера внутри пода
+        image: your-registry/web-app:latest  # Docker образ для запуска
+        imagePullPolicy: IfNotPresent  # Политика загрузки образа - только если нет локально
+        
+        # Ограничения и запросы ресурсов
+        resources:
+          requests:      # Гарантированные ресурсы
+            memory: "144M"  # Запрос памяти с запасом 15% от 128M
+            cpu: "50m"      # Минимальный CPU для экономии ресурсов
+          limits:        # Максимальные ресурсы
+            memory: "160M"  # Лимит памяти с небольшим запасом
+            cpu: "500m"     # Лимит CPU для пиковой нагрузки при старте
+        
+        # Определение портов контейнера
+        ports:
+        - containerPort: 8080  # Порт, который слушает приложение
+          name: http           # Имя порта для reference в Service
+          protocol: TCP        # Протокол порта
+        
+        # Проба проверки работоспособности приложения
+        livenessProbe:
+          httpGet:             # HTTP запрос для проверки
+            path: /health      # Эндпоинт здоровья приложения
+            port: 8080         # Порт для проверки
+          initialDelaySeconds: 15  # Задержка перед первой проверкой (учет долгого старта)
+          periodSeconds: 10    # Период между проверками
+          timeoutSeconds: 5    # Таймаут на ответ
+          failureThreshold: 3  # Количество неудач перед рестартом
+        
+        # Проба готовности принимать трафик
+        readinessProbe:
+          httpGet:
+            path: /ready       # Эндпоинт готовности приложения
+            port: 8080
+          initialDelaySeconds: 12  # Меньше чем liveness - быстрее начать принимать трафик
+          periodSeconds: 5     # Более частые проверки готовности
+          timeoutSeconds: 3    # Меньший таймаут для готовности
+          failureThreshold: 1  # Быстрая реакция на неготовность
+        
+        # Проба для определения завершения старта приложения
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          failureThreshold: 30 # Большое количество попыток для долгого старта (10сек * 3)
+          periodSeconds: 5     # Период проверки во время старта
+        
+        # Настройки безопасности контейнера
+        securityContext:
+          allowPrivilegeEscalation: false  # Запрет повышения привилегий
+          runAsNonRoot: true               # Запуск не от root пользователя
+          runAsUser: 1000                  # Запуск от конкретного non-root пользователя
+          capabilities:
+            drop:
+              - ALL                        # Удаление всех Linux capabilities
