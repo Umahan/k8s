@@ -2,19 +2,19 @@ EN
 
 Project Description:
 
-    We have a multi-zone cluster (three zones) with five nodes.
+We have a multi-zone cluster (three zones) with five nodes.
 
-    The application requires about 5-10 seconds for initialization.
+The application requires about 5-10 seconds for initialization.
 
-    Based on the results of load testing, it is known that 4 pods can handle the peak load.
+Based on the results of load testing, it is known that 4 pods can handle the peak load.
 
-    The application requires significantly more CPU resources for the initial requests; subsequent consumption is stable at around 0.1 CPU. Memory usage is always "steady" at around 128M.
+The application requires significantly more CPU resources for the initial requests; subsequent consumption is stable at around 0.1 CPU. Memory usage is always "steady" at around 128M.
 
-    The application has a daily load cycle – the number of requests is orders of magnitude lower at night, with a peak during the day.
+The application has a daily load cycle – the number of requests is orders of magnitude lower at night, with a peak during the day.
 
-    We want a highly failure-tolerant deployment.
+We want a highly failure-tolerant deployment.
 
-    We want minimal resource consumption from this deployment.
+We want minimal resource consumption from this deployment.
 
 
 RUS
