@@ -46,13 +46,14 @@ Our application operates within a multi-zone Kubernetes cluster spanning three a
 
 
 ## 📁 Repository Structure
-```
+
+~~~
 umahan-k8s/
 ├── README.md # Project documentation
 ├── autoscaler.yaml # Horizontal Pod Autoscaler configuration
 ├── deployment.yaml # Production-grade Deployment configuration
 └── service.yaml # Service definition (to be implemented)
-```
+~~~
 
 ## 🚀 Features & Best Practices Implemented
 
