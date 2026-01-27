@@ -164,7 +164,7 @@ kubectl get pods -n production -o wide
 
 
 #### 📈 Step 2: Configure Auto-Scaling
-<details> <summary><b>⚖️ HPA Configuration Commands</b></summary>
+<details open> <summary><b>⚖️ HPA Configuration Commands</b></summary>
   
 ```
 # 🔄 Apply HPA configuration
@@ -179,7 +179,7 @@ kubectl get hpa -n production --watch
 </details>
 
 #### 🔗 Step 3: (Optional) Create Service
-<details> <summary><b>🌐 Service Configuration Commands</b></summary>
+<details open> <summary><b>🌐 Service Configuration Commands</b></summary>
 ```
 # 📝 Create service.yaml based on recommended template
 # ⚡ Apply service configuration
@@ -193,7 +193,7 @@ kubectl get svc -n production
 
 #### 🧪 Step 4: Test Scaling
 
-<details> <summary><b>📊 Load Testing Commands</b></summary>
+<details open> <summary><b>📊 Load Testing Commands</b></summary>
 
 ```  
 # 🚀 Generate load (example using hey tool)
@@ -224,7 +224,7 @@ watch kubectl get hpa,pods -n production
   
 ### 🔒 Security & Compliance
 ✅ Implemented Security Measures:
-<details> <summary><b>🛡️ Detailed Security Configuration</b></summary>
+<details open> <summary><b>🛡️ Detailed Security Configuration</b></summary>
 | Security Feature | Configuration | Purpose |
 |--|:---:|--|
 | 👤 Non-root execution | `runAsNonRoot: true` | Prevents running as privileged user |
@@ -237,7 +237,7 @@ watch kubectl get hpa,pods -n production
   
   
 ### 🎯 Summary
-<details> <summary><b>📋 Deployment Quick Reference</b></summary>
+<details open> <summary><b>📋 Deployment Quick Reference</b></summary>
 #### 📝 One-Liner Deployment
 ```
 kubectl apply -f deployment.yaml && kubectl apply -f autoscaler.yaml
