@@ -150,14 +150,17 @@ kubectl create namespace production
 
 #### 🚀 Step 1: Deploy the Application
 <details open> <summary><b>📦 Application Deployment Commands</b></summary>
+
 ```
 # ⚡ Apply deployment configuration
 kubectl apply -f deployment.yaml
-
+```
+``` 
 # ✅ Verify deployment status
 kubectl get deployments -n production
 kubectl get pods -n production -o wide
 ```
+
 >💡 Tip: Use -o wide flag to see pod distribution across nodes
   
 </details>
@@ -169,7 +172,9 @@ kubectl get pods -n production -o wide
 ```
 # 🔄 Apply HPA configuration
 kubectl apply -f autoscaler.yaml
+```
 
+```
 # 👁️ Monitor HPA status in real-time
 kubectl get hpa -n production --watch
 ```
@@ -184,7 +189,9 @@ kubectl get hpa -n production --watch
 # 📝 Create service.yaml based on recommended template
 # ⚡ Apply service configuration
 kubectl apply -f service.yaml
+```
 
+```
 # 📊 Get service details
 kubectl get svc -n production
 ```
@@ -198,7 +205,9 @@ kubectl get svc -n production
 ```  
 # 🚀 Generate load (example using hey tool)
 hey -z 5m -c 50 http://`service-ip`
+```
 
+```
 # 👀 Monitor scaling behavior in real-time
 watch kubectl get hpa,pods -n production
 ```
