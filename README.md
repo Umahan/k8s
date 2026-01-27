@@ -1,31 +1,37 @@
-# EN
+# Kubernetes Production Deployment with HPA
 
-### Environment & Application Profile
+![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white)
+![Production-Ready](https://img.shields.io/badge/Production-Ready-success?style=for-the-badge)
+![Auto-Scaling](https://img.shields.io/badge/Auto--Scaling-Enabled-blue?style=for-the-badge)
+
+## 🌐 Project Overview / Обзор проекта
+
+### English
+
+#### Environment & Application Profile
 
 Our application operates within a multi-zone Kubernetes cluster spanning three availability zones, comprising a total of five worker nodes.
 
-### Key Application Characteristics:
+#### Key Application Characteristics:
 
 - **Initialization:** Requires a 5-10 second startup period.
 - **Performance & Scaling:** Load testing confirms that four pod replicas are sufficient to handle the projected peak traffic load.
 - **Resource Utilization Pattern:**
-	- **CPU:** Exhibits a significant spike during the initial request processing, subsequently stabilizing at a consistent baseline of approximately 0.1 CPU cores.
-	- **Memory:** Consumption is stable and predictable, consistently around 128 MiB.
+      - **CPU:** Exhibits a significant spike during the initial request processing, subsequently stabilizing at a consistent baseline of approximately 0.1 CPU cores.
+      - **Memory:** Consumption is stable and predictable, consistently around 128 MiB.
 - **Traffic Pattern:** Features a distinct diurnal cycle, with daytime peak traffic exceeding nighttime load by an order of magnitude.
 
-### Deployment Objectives:
+#### Deployment Objectives:
 - **Maximize Resilience:** Achieve the highest possible level of fault tolerance and availability within the given cluster topology.
 - **Optimize Resource Efficiency:** Minimize the total resource footprint of the deployment while fully meeting performance and scalability requirements.
 
-# RUS
+### Русский
 
-## Описание проекта:
-
-### Описание среды выполнения и характеристик приложения
+#### Описание среды выполнения и характеристик приложения
 
 Приложение развернуто в мультизональном Kubernetes-кластере, распределенном по трём зонам доступности на инфраструктуре из пяти узлов.
 
-### Профиль приложения:
+#### Профиль приложения:
 
 - **Время инициализации:** 5–10 секунд.
 - **Масштабируемость:** Результаты нагрузочного тестирования показывают, что для обработки пиковой нагрузки достаточно четырёх реплик Pod.
@@ -34,7 +40,7 @@ Our application operates within a multi-zone Kubernetes cluster spanning three a
   - **Память:** Потребление стабильно и предсказуемо, находится в районе 128 MiB.
 - **Профиль нагрузки:** Нагрузка имеет ярко выраженный суточный цикл: дневной пик превышает ночную минимальную нагрузку на порядок.
 
-### Цели конфигурации Deployment:
+#### Цели конфигурации Deployment:
 - **Максимизировать отказоустойчивость:** Обеспечить бесперебойную работу приложения, используя возможности мультизональной архитектуры кластера для достижения высокой доступности.
 - **Оптимизировать эффективность ресурсов:** Спроектировать конфигурацию, которая гарантирует выполнение SLA при минимальном потреблении вычислительных ресурсов, адаптируясь к естественным циклам нагрузки.
 
@@ -139,6 +145,7 @@ kubectl config current-context
 kubectl create namespace production
 ```
 💡 Tip: Use -o wide flag to see pod distribution across nodes
+
 </details>
 
 #### 🚀 Step 1: Deploy the Application
@@ -158,6 +165,7 @@ kubectl get pods -n production -o wide
 
 #### 📈 Step 2: Configure Auto-Scaling
 <details> <summary><b>⚖️ HPA Configuration Commands</b></summary>
+  
 ```
 # 🔄 Apply HPA configuration
 kubectl apply -f autoscaler.yaml
@@ -165,7 +173,9 @@ kubectl apply -f autoscaler.yaml
 # 👁️ Monitor HPA status in real-time
 kubectl get hpa -n production --watch
 ```
+  
 >⚠️ Note: The --watch flag provides live updates of scaling events
+  
 </details>
 
 #### 🔗 Step 3: (Optional) Create Service
@@ -178,20 +188,26 @@ kubectl apply -f service.yaml
 # 📊 Get service details
 kubectl get svc -n production
 ```
+
 </details>
 
 #### 🧪 Step 4: Test Scaling
+
 <details> <summary><b>📊 Load Testing Commands</b></summary>
-```
+
+```  
 # 🚀 Generate load (example using hey tool)
-hey -z 5m -c 50 http://<service-ip>
+hey -z 5m -c 50 http://`service-ip`
 
 # 👀 Monitor scaling behavior in real-time
 watch kubectl get hpa,pods -n production
 ```
->🔧 Tool Required: Install hey with go install github.com/rakyll/hey@latest
+🔧 Tool Required: Install hey with go install 
+  
 </details>
  
+
+
 ### 📊 Performance Characteristics
 | Metric | Value | Rationale |
 |--|:---:|--|
@@ -206,7 +222,7 @@ watch kubectl get hpa,pods -n production
 >📝 Note: All performance characteristics are based on load testing results and can be adjusted based on your specific workload.
   
   
-🔒 Security & Compliance
+### 🔒 Security & Compliance
 ✅ Implemented Security Measures:
 <details> <summary><b>🛡️ Detailed Security Configuration</b></summary>
 | Security Feature | Configuration | Purpose |
