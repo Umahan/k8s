@@ -1,31 +1,39 @@
-EN
+# EN
 
-Project Description:
+### Environment & Application Profile
 
-We have a multi-zone cluster (three zones) with five nodes.
+Our application operates within a multi-zone Kubernetes cluster spanning three availability zones, comprising a total of five worker nodes.
 
-The application requires about 5-10 seconds for initialization.
+### Key Application Characteristics:
 
-Based on the results of load testing, it is known that 4 pods can handle the peak load.
+- **Initialization:** Requires a 5-10 second startup period.
+- **Performance & Scaling:** Load testing confirms that four pod replicas are sufficient to handle the projected peak traffic load.
+- **Resource Utilization Pattern:**
+	- **CPU:** Exhibits a significant spike during the initial request processing, subsequently stabilizing at a consistent baseline of approximately 0.1 CPU cores.
+	- **Memory:** Consumption is stable and predictable, consistently around 128 MiB.
+- **Traffic Pattern:** Features a distinct diurnal cycle, with daytime peak traffic exceeding nighttime load by an order of magnitude.
 
-The application requires significantly more CPU resources for the initial requests; subsequent consumption is stable at around 0.1 CPU. Memory usage is always "steady" at around 128M.
+### Deployment Objectives:
+- **Maximize Resilience:** Achieve the highest possible level of fault tolerance and availability within the given cluster topology.
+- **Optimize Resource Efficiency:** Minimize the total resource footprint of the deployment while fully meeting performance and scalability requirements.
 
-The application has a daily load cycle – the number of requests is orders of magnitude lower at night, with a peak during the day.
+# RUS
 
-We want a highly failure-tolerant deployment.
+## Описание проекта:
 
-We want minimal resource consumption from this deployment.
+### Описание среды выполнения и характеристик приложения
 
+Приложение развернуто в мультизональном Kubernetes-кластере, распределенном по трём зонам доступности на инфраструктуре из пяти узлов.
 
-RUS
+### Профиль приложения:
 
-Описание проекта: 
+- **Время инициализации:** 5–10 секунд.
+- **Масштабируемость:** Результаты нагрузочного тестирования показывают, что для обработки пиковой нагрузки достаточно четырёх реплик Pod.
+- **Паттерн потребления ресурсов:**
+  - **CPU:** Наблюдается выраженный всплеск потребления при обработке первых запросов с последующей стабилизацией на постоянном уровне около 0.1 ядра.
+  - **Память:** Потребление стабильно и предсказуемо, находится в районе 128 MiB.
+- **Профиль нагрузки:** Нагрузка имеет ярко выраженный суточный цикл: дневной пик превышает ночную минимальную нагрузку на порядок.
 
-
-у нас мультизональный кластер (три зоны), в котором пять нод
-приложение требует около 5-10 секунд для инициализации
-по результатам нагрузочного теста известно, что 4 пода справляются с пиковой нагрузкой
-на первые запросы приложению требуется значительно больше ресурсов CPU, в дальнейшем потребление ровное в районе 0.1 CPU. По памяти всегда “ровно” в районе 128M memory
-приложение имеет дневной цикл по нагрузке – ночью запросов на порядки меньше, пик – днём
-хотим максимально отказоустойчивый deployment
-хотим минимального потребления ресурсов от этого deployment’а
+### Цели конфигурации Deployment:
+- **Максимизировать отказоустойчивость:** Обеспечить бесперебойную работу приложения, используя возможности мультизональной архитектуры кластера для достижения высокой доступности.
+- **Оптимизировать эффективность ресурсов:** Спроектировать конфигурацию, которая гарантирует выполнение SLA при минимальном потреблении вычислительных ресурсов, адаптируясь к естественным циклам нагрузки.
