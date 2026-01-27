@@ -185,6 +185,7 @@ kubectl get hpa -n production --watch
 
 #### 🔗 Step 3: (Optional) Create Service
 <details open> <summary><b>🌐 Service Configuration Commands</b></summary>
+
 ```
 # 📝 Create service.yaml based on recommended template
 # ⚡ Apply service configuration
@@ -232,8 +233,11 @@ watch kubectl get hpa,pods -n production
   
   
 ### 🔒 Security & Compliance
-✅ Implemented Security Measures:
+
+#### ✅ Implemented Security Measures:
+
 <details open> <summary><b>🛡️ Detailed Security Configuration</b></summary>
+  
 | Security Feature | Configuration | Purpose |
 |--|:---:|--|
 | 👤 Non-root execution | `runAsNonRoot: true` | Prevents running as privileged user |
@@ -241,36 +245,50 @@ watch kubectl get hpa,pods -n production
 | 🔒 Capability reduction | `drop: ["ALL"]` | Removes unnecessary Linux capabilities |
 | 🆔 Specific user ID | `runAsUser: 1000` | Runs with specific non-root UID |
 | 🌐 Network policy ready | `Labeled selectors` | Enables future network policyimplementation | 
-  
+ 
 </details>
   
   
 ### 🎯 Summary
 <details open> <summary><b>📋 Deployment Quick Reference</b></summary>
+
 #### 📝 One-Liner Deployment
+  
 ```
 kubectl apply -f deployment.yaml && kubectl apply -f autoscaler.yaml
 ```
+  
 #### 🚨 Health Check Commands
+
 ```
 # Check pod health
 kubectl get pods -n production
+```
 
+``` 
 # View deployment status
 kubectl rollout status deployment/web-app -n production
-
+```
+  
+```
 # Check HPA metrics
 kubectl describe hpa web-app-hpa -n production
 ```
+
 #### 📊 Monitoring Dashboard Commands
+  
 ```
 # Watch all resources
 watch kubectl get all -n production
-
+```
+  
+``` 
 # View events
 kubectl get events -n production --sort-by='.lastTimestamp'
 ```
+
 </details>
+
 ### 🆘 Troubleshooting Tips
 #### Quick Fixes:
 
