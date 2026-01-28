@@ -4,6 +4,16 @@
 ![Production-Ready](https://img.shields.io/badge/Production-Ready-success?style=for-the-badge)
 ![Auto-Scaling](https://img.shields.io/badge/Auto--Scaling-Enabled-blue?style=for-the-badge)
 
+## 📋 Table of Contents
+- [Project Overview](#-project-overview)
+- [Repository Structure](#-repository-structure)
+- [Features & Best Practices Implemented](#-features--best-practices-implemented)
+- [Files Description](#-files-description)
+- [Deployment Instructions](#%EF%B8%8F-deployment-instructions)
+- [Security & Compliance](#-security--compliance)
+- [Summary](#-summary)
+- [Troubleshooting Tips](#-troubleshooting-tips)
+
 ## 🌐 Project Overview 
 
 <details> <summary><b>🔧 Click to expand description </b></summary>
