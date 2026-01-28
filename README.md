@@ -61,6 +61,8 @@ umahan-k8s/
 
 ## 🚀 Features & Best Practices Implemented
 
+<details> <summary><b> Click here to expand</b></summary>
+
 ### 1. **Intelligent Auto-Scaling** (`autoscaler.yaml`)
 - **Multi-version HPA (v2)** for advanced metrics support
 - **Dual-direction scaling policies** with different stabilization windows
@@ -80,9 +82,13 @@ umahan-k8s/
 - **CPU Request/Limit Balance** for cost-efficiency and burst handling
 - **Efficient Scaling Range** (1-4 pods) based on load testing
 
+</details>
+
 ---
 
 ## 📋 Files Description
+
+<details> <summary><b> Click here to expand description </b></summary>
 
 ### `deployment.yaml`
 **Purpose:** Defines the web application deployment with production-grade configurations.
@@ -133,6 +139,8 @@ spec:
     protocol: TCP
   type: LoadBalancer
 ```
+
+</details>
 
 ## 🛠️ Deployment Instructions
 
